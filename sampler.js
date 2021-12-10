@@ -11,7 +11,6 @@ class ImageSampler {
       // create in-memory canvas to get image data
       var canvas = document.createElement("canvas");
       var context = canvas.getContext("2d");
-      // var img = document.getElementById('myimg');
       canvas.width = this.img.width;
       canvas.height = this.img.height;
       context.drawImage(this.img, 0, 0);
@@ -23,9 +22,15 @@ class ImageSampler {
 
   colorAt(pt) {
     let [x, y] = pt;
-    let coord = y * (this.width * 4) + x * 4;
+    // clamp coordinates so they always return a value
+    x = Math.round(x);
+    y = Math.round(y);
+    x = x > this.width ? this.width : x;
+    x = x < 0 ? 0 : x;
+    y = y > this.height ? this.height : y;
+    y = y < 0 ? 0 : y;
+    let coord = parseInt(y * (this.width * 4) + x * 4);
     let data = this.data.data;
-    // return [data[coord + 1], data[coord + 2], data[coord + 3], data[coord + 0]];
     return [data[coord + 0], data[coord + 1], data[coord + 2], data[coord + 3]];
   }
 }

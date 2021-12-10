@@ -40,15 +40,12 @@ function rectangular(rows, cols, width, height, flipped = false) {
  * make triangles as close to equilateral without having an uneven last row.
  */
 function diamond(w, h, cols) {
-  console.log("width", w, "height", h, "cols", cols);
   // width is 0.5 less than total columns
   const width = w / (cols - 0.5);
   const heightError = Math.sin(Math.PI / 3) * width; // sin(60) * side
   const rowsError = h / heightError;
-  console.log("width", width, "height", heightError, "rows", rowsError);
   const rows = Math.round(rowsError);
   const height = h / rows;
-  console.log("width", width, "height", height, "rows", rows);
 
   let polys = [];
   for (let row = 0; row < rows; row++) {
