@@ -46,13 +46,24 @@ function insetRect(rect, amount) {
 }
 
 function componentToHex(c) {
+  if (c === undefined) return 0;
   var hex = c.toString(16);
   return hex.length == 1 ? "0" + hex : hex;
 }
 
 function rgbToHex(rgb) {
+  if (rgb.length == 4) {
+    let [r, g, b, a] = rgb;
+    return (
+      "#" +
+      componentToHex(r) +
+      componentToHex(g) +
+      componentToHex(b) +
+      componentToHex(a)
+    );
+  }
   let [r, g, b] = rgb;
   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-export { rectThatFits, transformThatFits, insetRect, rgbToHex };
+export { rectThatFits, transformThatFits, insetRect, componentToHex, rgbToHex };
