@@ -26,9 +26,9 @@ class ImageSampler {
     // clamp coordinates so they always return a value
     x = Math.round(x);
     y = Math.round(y);
-    x = x > this.width ? this.width : x;
+    x = x >= this.width ? this.width - 1 : x;
     x = x < 0 ? 0 : x;
-    y = y > this.height ? this.height : y;
+    y = y >= this.height ? this.height - 1 : y;
     y = y < 0 ? 0 : y;
     let coord = parseInt(y * (this.width * 4) + x * 4);
     let data = this.data;
