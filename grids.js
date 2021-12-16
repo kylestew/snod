@@ -39,7 +39,7 @@ function rectangular(rows, cols, width, height, flipped = false) {
  * Given dimensions to fill and number of cols, a height is determine to
  * make triangles as close to equilateral without having an uneven last row.
  */
-function diamond(w, h, cols) {
+function triangle(w, h, cols) {
   // width is 0.5 less than total columns
   const width = w / (cols - 0.5);
   const heightError = Math.sin(Math.PI / 3) * width; // sin(60) * side
@@ -78,7 +78,7 @@ function diamond(w, h, cols) {
 
 const grids = {
   rectangular,
-  diamond,
+  triangle,
 };
 
 export default grids;
