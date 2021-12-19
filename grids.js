@@ -58,15 +58,15 @@ function triangle(w, h, cols) {
 
       let A, B, C, D;
       if (odd) {
-        A = [x + width / 2, y + height];
-        B = [x + width * 1.5, y + height];
-        C = [x, y];
-        D = [x + width, y];
+        A = [x + width / 2, y + height, 0];
+        B = [x + width * 1.5, y + height, 0];
+        C = [x, y, 0];
+        D = [x + width, y, 0];
       } else {
-        A = [x, y];
-        B = [x + width, y];
-        C = [x - width / 2, y + height];
-        D = [x + width / 2, y + height];
+        A = [x, y, 0];
+        B = [x + width, y, 0];
+        C = [x - width / 2, y + height, 0];
+        D = [x + width / 2, y + height, 0];
       }
 
       polys.push(polygon([A, D, C]));
