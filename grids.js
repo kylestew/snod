@@ -2,6 +2,27 @@ import { polygon } from "@thi.ng/geom";
 
 /* https://github.com/bit101/grid/blob/master/grid.js */
 
+function testTriangle(width, height) {
+  return [
+    polygon([
+      [width / 2, 0, 0],
+      [width, height, 0],
+      [0, height, 0],
+    ]),
+  ];
+}
+
+function testRectangle(width, height) {
+  return [
+    polygon([
+      [0, 0, 0],
+      [width, 0, 0],
+      [width, height, 0],
+      [0, height, 0],
+    ]),
+  ];
+}
+
 function rectangular(rows, cols, width, height, flipped = false) {
   // create grid of points
   var pts = [];
@@ -58,25 +79,30 @@ function triangle(w, h, cols) {
 
       let A, B, C, D;
       if (odd) {
-        A = [x + width / 2, y + height, 0];
-        B = [x + width * 1.5, y + height, 0];
-        C = [x, y, 0];
-        D = [x + width, y, 0];
-      } else {
-        A = [x, y, 0];
-        B = [x + width, y, 0];
-        C = [x - width / 2, y + height, 0];
-        D = [x + width / 2, y + height, 0];
-      }
+        A = [x + width / 2, y + height, 0]; // bottom left
+        B = [x + width * 1.5, y + height, 0]; // bottom right
+        C = [x, y, 0]; // top left
+        D = [x + width, y, 0]; // top right
 
-      polys.push(polygon([A, D, C]));
-      polys.push(polygon([D, A, B]));
+        polys.push(polygon([A, C, D]));
+        polys.push(polygon([D, B, A]));
+      } else {
+        D = [x, y, 0];
+        C = [x + width, y, 0];
+        B = [x - width / 2, y + height, 0];
+        A = [x + width / 2, y + height, 0];
+
+        polys.push(polygon([A, D, C]));
+        polys.push(polygon([D, A, B]));
+      }
     }
   }
   return polys;
 }
 
 const grids = {
+  testTriangle,
+  testRectangle,
   rectangular,
   triangle,
 };

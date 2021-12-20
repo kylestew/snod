@@ -66,4 +66,20 @@ function rgbToHex(rgb) {
   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-export { rectThatFits, transformThatFits, insetRect, componentToHex, rgbToHex };
+const repeatArray = (arr, times) => {
+  return Array.from(
+    {
+      length: times,
+    },
+    () => arr
+  ).flat();
+};
+
+export {
+  rectThatFits,
+  transformThatFits,
+  insetRect,
+  componentToHex,
+  rgbToHex,
+  repeatArray,
+};

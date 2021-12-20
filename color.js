@@ -1,9 +1,12 @@
 /* 
 takes a vector 3 of RGB color 
 result is in [0-1] range
+https://stackoverflow.com/questions/596216/formula-to-determine-perceived-brightness-of-rgb-color
 */
 function luminosity(rgb) {
-  return (0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]) / 255.0;
+  // return (0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]) / 255.0;
+  // Y = 0.299 R + 0.587 G + 0.114 B
+  return (0.299 * rgb[0] + 0.587 * rgb[1] + 0.144 * rgb[2]) / 255.0;
 }
 
 export { luminosity };
