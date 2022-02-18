@@ -1,3 +1,5 @@
+import { dist } from "@thi.ng/vectors";
+
 class ImageSampler {
   constructor(imageData) {
     this.width = imageData.width;
@@ -33,6 +35,39 @@ class ImageSampler {
     let coord = parseInt(y * (this.width * 4) + x * 4);
     let data = this.data;
     return [data[coord + 0], data[coord + 1], data[coord + 2], data[coord + 3]];
+  }
+
+  averageColorCircle(pt, radius = 4) {
+    let [x, y] = pt;
+
+    let r = 0;
+    let g = 0;
+    let b = 0;
+    let num = 0;
+
+    // iterate a bounding box in which the circle lies
+    for (let i = x - radius; i < x + radius; i++) {
+      for (let j = y - radius; j < y + radius; j++) {
+        // ensure pixel in sampler
+        if (i < 0 || i >= this.width || j < 0 || j >= this.height) continue;
+
+        // ensure pixel in circle
+        if (dist(x, y, i, j) > radius) continue;
+
+        let color = this.colorAt([i, j]);
+        r += color[0] * color[0];
+        g += color[1] * color[1];
+        b += color[2] * color[2];
+        num++;
+      }
+    }
+
+    return [
+      Math.floor(Math.sqrt(r / num)),
+      Math.floor(Math.sqrt(g / num)),
+      Math.floor(Math.sqrt(b / num)),
+      255,
+    ];
   }
 }
 
