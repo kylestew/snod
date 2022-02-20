@@ -37,6 +37,7 @@ class ImageSampler {
       if (extractPalette) {
         Vibrant.from(img)
           .quality(1)
+          .clearFilters()
           .getPalette((err, palette) => {
             let pal = [
               palette.Vibrant.getHex(),
