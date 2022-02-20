@@ -1,13 +1,28 @@
 import { dist } from "@thi.ng/vectors";
+import * as Vibrant from "node-vibrant";
+import Values from "values.js";
 
 class ImageSampler {
-  constructor(imageData) {
+  constructor(imageData, palette) {
+    this.imageData = imageData;
     this.width = imageData.width;
     this.height = imageData.height;
     this.data = imageData.data;
+    this.palette = palette;
   }
 
-  static CreateFromImageUrl(url, callback) {
+  static ExpandColorPalette(palette) {
+    let expandedPalette = palette
+      .flatMap((pal) => {
+        const color = new Values(pal);
+        return color.all(24);
+      })
+      .map((value) => value.rgb);
+
+    return expandedPalette;
+  }
+
+  static CreateFromImageUrl(url, callback, extractPalette = false) {
     let img = new Image();
     img.src = url;
     img.onload = () => {
@@ -18,6 +33,22 @@ class ImageSampler {
       canvas.height = img.height;
       context.drawImage(img, 0, 0);
       const data = context.getImageData(0, 0, img.width, img.height);
+
+      if (extractPalette) {
+        Vibrant.from(img)
+          .quality(1)
+          .getPalette((err, palette) => {
+            let pal = [
+              palette.Vibrant.getHex(),
+              palette.LightVibrant.getHex(),
+              palette.DarkVibrant.getHex(),
+              palette.Muted.getHex(),
+              palette.LightMuted.getHex(),
+              palette.DarkMuted.getHex(),
+            ];
+            callback(new ImageSampler(data, this.ExpandColorPalette(pal)));
+          });
+      }
 
       callback(new ImageSampler(data));
     };
@@ -62,6 +93,9 @@ class ImageSampler {
       }
     }
 
+    if (num <= 0) {
+      return [0, 0, 0, 255];
+    }
     return [
       Math.floor(Math.sqrt(r / num)),
       Math.floor(Math.sqrt(g / num)),
